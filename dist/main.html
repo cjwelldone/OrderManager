@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+     .nav-link {
+       cursor: pointer;
+      }
+
+      #loading {
+        position: fixed;
+        top: 0;
+        left: 0;        
+        z-index: 3;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0,0,0,0.1);
+      }
+      .cart {
+        margin-top: 3rem;
+      }
+
+      .checkout {
+        margin-top: 3rem;
+      }
+
+    </style>
+  
+  </head>
+  <body>
+    <div class="container" >
+      <nav id='navigation'>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <div class="nav-link active" id='search-cs-link'>Search Customer</div>
+        </li>
+         <li class="nav-item">
+          <div class="nav-link" id='search-orders-link'>Search Order</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id='add-cs-link'>Add Customer</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id='add-pd-link'>Add Product</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id='add-us-link'>Add User Data</div>
+        </li>
+      </ul>
+      </nav>
+      <div id="app">
+        <!-- App Content is rendered here -->
+      </div>
+   
+    </div>
+    <div id="loading" class="d-flex justify-content-center align-items-center invisible"> 
+      <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+     <script>
+    
+/* ------------------------------------- Loading Frame   ------------------------------------- */   
+
+
+function startLoading () {
+  document.getElementById('loading').classList.remove('invisible')
+}
+
+function endLoading () {
+  document.getElementById('loading').classList.add('invisible')
+}
+
+ /* ------------------------------------- GET & SET DATA FOR SEARCH   ------------------------------------- */ 
+    let data
+    let productData
+    let orderData
+
+
+    function setDataForSearch () {
+      startLoading()
+      google.script.run.withSuccessHandler(function(dataReturned){
+        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
+        // slice without any args - returns a copy of the dataReturned Array
+        data = dataReturned.slice()
+        endLoading()
+      }).withFailureHandler().getDataForSearch()
+    }
+
+    function setProductDataForSearch () {
+      google.script.run.withSuccessHandler(function(dataReturned){
+        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
+        // slice without any args - returns a copy of the dataReturned Array
+        if(dataReturned == undefined) {
+          alert('Data could not be loaded')
+        } else {
+          productData = dataReturned.slice()
+        }
+      }).withFailureHandler().getProductDataForSearch()
+    }
+
+    function setOrderDataForSearch () {
+      startLoading()
+      google.script.run.withSuccessHandler(function(dataReturned){
+        
+        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
+        // slice without any args - returns a copy of the dataReturned Array
+        orderData = dataReturned.slice()
+        endLoading()
+      }).withFailureHandler().getOrderDataForSearch()
+    }
+
+
+/* ------------------------------------- SEARCH DATA ------------------------------------- */ 
+
+
+    function search(typeData) {
+      
+      let searchInput
+      let searchColumns
+
+      switch(typeData) {
+        case 'customer' :
+        //inputtext in search input convert searchinput to lowercase and string
+          searchInput = document.getElementById('searchInput-customer').value.toString().toLowerCase()
+          searchColumns = [1,2,3]
+          dataToFilter =  data
+        break
+        case 'product' :
+          searchInput = document.getElementById('searchInput-product').value.toString().toLowerCase()
+          searchColumns = [1,2]
+          dataToFilter = productData
+        break
+        case 'order' :
+          searchInput = document.getElementById('searchInput-order').value.toString().toLowerCase()
+          searchColumns =  [4]
+          dataToFilter = orderData
+        break
+        default:
+          alert('No search-input select')
+      }
+
+
+      // splitting by spaces with REG EX: s+  means one or more spaces - searchwords is an array with multiple words
+      const searchWords = searchInput.split(/\s+/)
+      // in which columns should the words be searched for 
+
+      /* FROM HERE unique CODE */
+      const resultsArr = searchInput === '' ? [] : dataToFilter.filter(function(r){
+        
+        //every Method with some Method (and or condition)
+        return searchWords.every(function(word){
+          return searchColumns.some(function(colIndex){
+            return r[colIndex].toString().toLowerCase().indexOf(word) !== -1
+          })
+        })
+      })
+
+      const searchResultsBox = document.getElementById('searchResults')
+      const templateBox = document.getElementById('rowTemplate')
+      const template = templateBox.content
+      //clear the old search results every time - functions run
+      searchResultsBox.innerHTML = ''
+
+
+      switch(typeData){
+        case 'customer': resultsArr.forEach(function(r){
+        // make copy of template and append tableRows
+        const tr = template.cloneNode(true)
+        const custId = tr.querySelector('.custId')
+        const first = tr.querySelector('.first')
+        const last = tr.querySelector('.last')
+        const company = tr.querySelector('.company')
+        const deleteButton = tr.querySelector('.delete-button')
+        const editButton = tr.querySelector('.edit-button')
+        const orderButton = tr.querySelector('.add-order-button')
+        
+        custId.textContent = r[0]
+        deleteButton.dataset.customerID = r[0]
+        editButton.dataset.customerID = r[0]
+        orderButton.dataset.customerID = r[0]
+        first.textContent = r[2]
+        last.textContent = r[3]
+        company.textContent = r[1]
+        searchResultsBox.appendChild(tr)
+      })
+       break
+      case 'product': resultsArr.forEach(function(r){
+        // make copy of template and append tableRows
+        const tr = template.cloneNode(true)
+        const id = tr.querySelector('.prodId')
+        const prodName = tr.querySelector('.prodName')
+        const prodPrice = tr.querySelector('.prodPrice')
+        const vat = tr.querySelector('.vat')
+        const addButton = tr.querySelector('.add-product-to-order')
+        
+        id.textContent = r[0]
+        addButton.dataset.productID = r[0]
+        prodName.textContent = r[1]
+        prodPrice.textContent = r[3]
+        vat.textContent = r[4]
+        searchResultsBox.appendChild(tr)
+      })
+      break
+      case 'order': resultsArr.forEach(function(r){
+        // make copy of template and append tableRows
+        const tr = template.cloneNode(true)
+        
+        const id = tr.querySelector('.orderNumber')
+        const orderamount = tr.querySelector('.amount')
+        const invoiceSent = tr.querySelector('.invoiceSent')
+        const customer = tr.querySelector('.customer')
+        const addButton = tr.querySelector('#add-invoice-button')
+        const sendButton = tr.querySelector('#send-invoice-button')
+        sendButton.dataset.orderID = r[0]
+        addButton.dataset.orderID = r[0]
+        if(r[2] === 0) {
+            addButton.classList.remove('invisible')
+        }
+        if(r[2] === 1) {
+            sendButton.classList.remove('invisible')
+        }
+        id.textContent = r[0]
+        orderamount.textContent = r[1]
+        invoiceSent.textContent = r[3] === 0 ? 'NOT YET' : 'YES'
+        customer.textContent = r[4]
+        searchResultsBox.appendChild(tr)
+      })
+      break
+      default:
+      console.log('No search-input selected')
+      }
+    }
+    
+
+    /* -------------------------------------- CONSTRUCT CART  ----------------------------------------------------------------- */
+
+      function removeProductFormCart(eventTarget) {
+        const row = eventTarget.closest('tr')
+        row.remove()
+        updateCart() 
+      }
+
+      function createOrderPositionOverView(eventTarget) {
+            
+           // CHECK if product is already in the in the cart - if yes update quantity and total
+
+            if(document.getElementsByClassName('prodNameCart') != undefined){
+            const productsInCart = document.getElementsByClassName('prodNameCart')
+              if (productsInCart.length > 0){
+                for (i =0; i< productsInCart.length; i++) {
+                  if(eventTarget.closest(`tr`).querySelector('.prodName').textContent == productsInCart[i].innerHTML) {
+                    
+                    const item = eventTarget.parentElement.parentElement
+                    const itemPrice = Number(item.getElementsByClassName('prodPrice')[0].innerHTML)
+                    const itemQuantity = Number(item.getElementsByClassName('prodQuantity')[0].value)
+                    
+                  //update quantity of cart:  actual quantity +  item quantity from search row
+                  const cartQuantity = Number(productsInCart[i].nextElementSibling.innerHTML)
+                  
+                  const updatedCartQuantity = cartQuantity + itemQuantity
+                  
+                  productsInCart[i].nextElementSibling.innerHTML = updatedCartQuantity
+
+                  // update total line cart amount (quantity * price)
+                  productsInCart[i].nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = updatedCartQuantity * itemPrice
+                  
+                  // Update the Total Cart Amount
+                  updateCart()
+                  return
+                  }
+                }
+              }
+            } 
+    
+
+      // create row and append it to table with class order-overview
+      // use the template provided in html file addOrderModal
+      // clone the tr node 
+      // select the classes of template
+  
+      const templateBox = document.getElementById('rowTemplateOrderOverview')
+      const template = templateBox.content
+      const tr = template.cloneNode(true)
+        
+      const prodName = tr.querySelector('.prodNameCart')
+      const quantityCart = tr.querySelector('.quantityCart')
+      const prodPrice = tr.querySelector('.priceCart')
+      const vatRateCart = tr.querySelector('.vatRate')
+      let totalLine = tr.querySelector('.totalLineAmount')
+      
+      
+      prodName.textContent = eventTarget.closest(`tr`).querySelector('.prodName').innerHTML
+      const quantityItem = eventTarget.closest(`tr`).querySelector('.prodQuantity').value
+      quantityCart.textContent = quantityItem
+      prodPrice.textContent = eventTarget.closest(`tr`).querySelector('.prodPrice').innerHTML
+      vatRateCart.textContent = eventTarget.closest('tr').querySelector('.vat').innerHTML
+      
+      
+      // update total line amount - this is crap
+      totalLine.textContent = quantityItem * eventTarget.closest(`tr`).querySelector('.prodPrice').innerHTML
+
+      // append new line to cart overview
+      document.getElementById("order-overview").appendChild(tr);
+      // Update the Total Cart Amount
+      updateCart()
+    }  
+
+/* -------------------------------------- UPDATE CART AMOUNT ----------------------------------------------------------------- */
+    
+
+    function updateCart () {
+      const cartTotal = document.getElementById('cartTotal')
+      const cartTotal19 = document.getElementById('cartTotal19')
+      
+      let newCartTotal = 0
+      let newCartTotalTR19 = 0
+      let newCartTotalTR07 = 0
+
+      // get all total line amounts of cart and sum them up - check the vat 
+
+      if(document.getElementsByClassName('totalLineAmount') != undefined) {
+  
+        for (const amount of document.getElementsByClassName("totalLineAmount")){
+          
+          // VAT is two elements left of total amount div
+          let vatRate = parseFloat(amount.previousElementSibling.previousElementSibling.textContent)
+          
+          // Total  
+          let totalLineAmount = parseFloat(amount.innerHTML)
+          
+          // define total line amounts with 19 and 7 % tax
+          let totalLineInclTax19 = 0
+          let totalLineInclTax07 = 0
+          
+          if (vatRate == 19) {
+            vatRate = vatRate / 100 + 1
+            totalLineInclTax19 = totalLineAmount / vatRate
+          } 
+          if (vatRate == 7) {
+            vatRate = vatRate / 100 + 1
+            totalLineInclTax07 = totalLineAmount / vatRate
+          } 
+
+          // update cart total19% 
+          newCartTotalTR19 = totalLineInclTax19 + newCartTotalTR19
+
+          // update cart total7% 
+          newCartTotalTR07 = totalLineInclTax07 + newCartTotalTR07
+
+          // update cart total 
+          newCartTotal = totalLineAmount + newCartTotal
+        
+        }
+      }
+      
+      // set new total amount 7 %   
+      //org: cartTotal07.innerText = newCartTotalTR07.toFixed(2)
+      cartTotal07.value = newCartTotalTR07.toFixed(2)
+      // set new total amount 19 %   
+      cartTotal19.value = newCartTotalTR19.toFixed(2)
+      // set new total amount
+      cartTotal.value = newCartTotal.toFixed(2)
+      
+    }
+
+    
+/* -------------------------------------- LOAD DIFFERENT VIEWS - NAVBAR ----------------------------------------------------------------- */
+
+
+    function loadAddCustomerView() {
+      loadView({func:'loadAddCustomerView'})
+    }
+
+    function loadAddProductView() {
+      loadView({func:'loadAddProductView'})
+    }
+    
+    function loadAddUserView() {
+      loadView({func:'loadAddUserView'})
+    }
+
+    function loadSearchCustomerView() {
+      loadView({func:'loadSearchView', callback: setDataForSearch})
+    }
+
+    function loadSearchOrderView() {
+      loadView({func:'loadSearchOrderView', callback: setOrderDataForSearch})
+    }
+
+   
+    
+/* -------------------------------------- CallBacks after View loaded ---------------------------------------------------------------------------- */
+
+
+/* --------------------------- Populate Input Fields for editing / updating Customer ----------------------------------------------------------------- */
+   
+    function afterEditViewLoads(params) {
+      startLoading()
+      document.getElementById("customer-id").value = params.custID
+      google.script.run.withSuccessHandler(function(customerInfo){
+        document.getElementById("company").value = customerInfo.company
+        document.getElementById("firstname").value = customerInfo.first
+        document.getElementById("lastname").value = customerInfo.last
+        document.getElementById("zip").value = customerInfo.zip
+        document.getElementById("street").value = customerInfo.street
+        document.getElementById("number").value = customerInfo.number
+        document.getElementById("city").value = customerInfo.city
+        document.getElementById("email").value = customerInfo.email
+        endLoading()
+      }).getCustomerByID(params.custID)
+    }
+
+/* -------------------------------------- Populate Input Fields for editing an invoice ----------------------------------------------------------------- */
+    
+    
+    // sets the inital values of customer data in addorderview
+    function afterOrderViewLoads(params) {
+      startLoading()
+      document.getElementById("customer-id").value = params.custID
+      google.script.run.withSuccessHandler(function(customerInfo){
+        document.getElementById("company").value = customerInfo.company
+        document.getElementById("firstname").value = customerInfo.first
+        document.getElementById("lastname").value = customerInfo.last
+        endLoading()
+      }).getCustomerByID(params.custID)
+      
+      // Load ProductData from server and write it to productData Object
+      setProductDataForSearch()
+   
+    }
+
+/* --------------------------------------------------- CRUD FUNCTIONS CLIENT SIDE  ----------------------------------------------------------------- */
+
+/* ------------------------------------- SEND INVOICE BY MAIL------------------------------------- */ 
+
+    function sendInvoiceByEmail(e) {
+      orderNumber = e.target.dataset.orderID
+      google.script.run.withSuccessHandler(res=>{
+        document.getElementById('success-text').innerHTML = `Succesfully sent to: ${res}`
+        document.getElementById('alert-saved').classList.remove('invisible')
+        setTimeout(function(){
+          document.getElementById('alert-saved').classList.add('invisible')
+        },3000)
+      }).withFailureHandler(err=>{
+        alert(err)
+      }).sendInvoiceByEmail(orderNumber)
+    }
+
+/* ------------------------------------- CREATE INVOICE ------------------------------------- */ 
+
+    function createInvoiceHandle(e) {
+        id = e.target.dataset.orderID
+        startLoading()
+        google.script.run.withSuccessHandler((res)=>{
+        document.getElementById('success-text').textContent = 'Invoice created succesfully!'   
+        document.getElementById('alert-saved').classList.remove('invisible')
+        endLoading()
+        setTimeout(function(){
+          document.getElementById('alert-saved').classList.add('invisible')
+        },6000)
+        loadSearchOrderView()
+        }).withFailureHandler(err=>{
+          alert(err)}).createInvoice(id)
+    }
+
+/* ------------------------------------- ADD ORDER ------------------------------------- */ 
+
+    function addOrder () {
+      
+      const customerID = document.getElementById('customer-id').value
+      const cartData = []
+      const rows = document.getElementsByClassName("result-box-cart")
+      for (i=0; i<rows.length; i++) {
+        const productName = document.getElementsByClassName("prodNameCart")
+        const quantity = document.getElementsByClassName("quantityCart")
+        const price = document.getElementsByClassName("priceCart")
+        const vatRate = document.getElementsByClassName('vatRate')
+        const lineItemTotal = document.getElementsByClassName("totalLineAmount")
+        const cartTotal = document.getElementById('cartTotal').value
+        const cartTotal19 = document.getElementById('cartTotal19').value
+        const cartTotal07 = document.getElementById('cartTotal07').value
+
+        cartData.push([productName[i].innerText,quantity[i].innerText,price[i].innerText, lineItemTotal[i].innerText, cartTotal,cartTotal19, cartTotal07, customerID, vatRate[i].innerText])
+      }
+      
+    //Clear the Cart and the total Amount fields
+     document.getElementById('order-overview').remove()
+     document.getElementById('cartTotal07').value = '0'
+     document.getElementById('cartTotal19').value = '0'
+     document.getElementById('cartTotal').value = '0'
+     
+     google.script.run.withSuccessHandler(function(res){
+      
+      document.getElementById('alert-saved').classList.remove('invisible')
+      setTimeout(function(){
+        document.getElementById('alert-saved').classList.add('invisible')
+        loadView({func:'loadAddOrderView', callback: afterOrderViewLoads, params: {custID: customerID.toString()} })
+      },3000)
+      }).withFailureHandler().addOrder(cartData)
+    }
+
+/* ------------------------------------- ADD USER------------------------------------- */ 
+
+    function addUser () {
+
+        const data = {
+        bankaccount: document.getElementById('bankaccount').value,
+        iban: document.getElementById('iban').value,
+        bic: document.getElementById('bic').value,
+        taxnumber: document.getElementById('taxnumber').value,
+        vatId: document.getElementById('vatId').value,
+        textblock1: document.getElementById('textblock_1').value,
+        textblock2: document.getElementById('textblock_2').value,
+        fon: document.getElementById('fon').value,
+        email: document.getElementById('email').value,
+        company: document.getElementById('company').value,
+        first: document.getElementById('first').value,
+        last: document.getElementById('last').value,
+        street: document.getElementById('street').value,
+        number: document.getElementById('number').value,
+        zip: document.getElementById('zip').value,
+        city: document.getElementById('city').value,
+        noVatOnInvoice: document.getElementById('noVatOnInvoice').checked,
+        
+        }
+        google.script.run.withSuccessHandler(function(res){
+        
+        document.getElementById('bankaccount').value = ""
+        document.getElementById('iban').value = ""
+        document.getElementById('bic').value = ""
+        document.getElementById('vatId').value = ""
+        document.getElementById('taxnumber').value = ""
+        document.getElementById('textblock_1').value = ""
+        document.getElementById('textblock_2').value = ""
+        
+        document.getElementById('fon').value = ""
+        document.getElementById('email').value = ""
+        document.getElementById('company').value = ""
+        document.getElementById('first').value = ""
+        document.getElementById('last').value = ""
+        document.getElementById('street').value = ""
+        document.getElementById('number').value = ""
+        document.getElementById('zip').value = ""
+        document.getElementById('city').value = ""
+        document.getElementById('noVatOnInvoice').checked = false
+        
+        document.getElementById('alert-saved-user').classList.remove('invisible')
+        setTimeout(function(){
+          document.getElementById('alert-saved-user').classList.add('invisible')
+        },3000)
+        }).withFailureHandler(err=>alert(err)).addUser(data)
+    }
+/* ------------------------------------- ADD CUSTOMER------------------------------------- */ 
+
+    function addCustomer () {
+
+        const data = {
+        email: document.getElementById('email').value,
+        company: document.getElementById('company').value,
+        first: document.getElementById('first').value,
+        last: document.getElementById('last').value,
+        street: document.getElementById('street').value,
+        number: document.getElementById('number').value,
+        zip: document.getElementById('zip').value,
+        city: document.getElementById('city').value,
+        }
+
+        google.script.run.withSuccessHandler(function(res){
+        
+        document.getElementById('email').value = ""
+        document.getElementById('company').value = ""
+        document.getElementById('first').value = ""
+        document.getElementById('last').value = ""
+        document.getElementById('street').value = ""
+        document.getElementById('number').value = ""
+        document.getElementById('zip').value = ""
+        document.getElementById('city').value = ""
+        
+        document.getElementById('alert-saved-customer').classList.remove('invisible')
+        setTimeout(function(){
+          document.getElementById('alert-saved-customer').classList.add('invisible')
+        },3000)
+        }).withFailureHandler().addCustomer(data)
+    }
+
+/* ------------------------------------- UPDATE CUSTOMER------------------------------------- */ 
+
+    function updateCustomer() {
+      
+      const id = document.getElementById("customer-id").value
+      let customerData = {}
+      customerData.company = document.getElementById("company").value
+      customerData.firstname = document.getElementById("firstname").value
+      customerData.lastname = document.getElementById("lastname").value
+    
+      google.script.run.withSuccessHandler(function(res){
+       document.getElementById('alert-saved').classList.remove('invisible')
+        setTimeout(function(){
+          document.getElementById('alert-saved').classList.add('invisible')
+        },2000)
+      }).withFailureHandler(err=>{alert(err)}).updateCustomerByID(id,customerData)
+    }
+
+/* ------------------------------------- DELETE CUSTOMER------------------------------------- */ 
+    function deleteCustomer (e) {
+      
+      const custId = e.target.dataset.customerID 
+      google.script.run.withSuccessHandler(function(){
+        e.target.closest('.result-box').remove()
+        //update the search with setDataForSearch() Function or 
+        // or remove the row from data copy
+        const ids = data.map(function(r){
+          return r[0].toString().toLowerCase()
+        })
+        const index = ids.indexOf(custId.toString().toLowerCase())
+        //deletes or insert to array at given position
+        data.splice(index,1)
+      }).withFailureHandler().deleteByID(custId)
+    }
+
+/* ------------------------------------- ADD PRODUCT ------------------------------------- */ 
+    function addProduct () {
+
+            const data = {
+            name: document.getElementById('name').value,
+            desc: document.getElementById('desc').value,
+            price: document.getElementById('price').value,
+            vat: document.getElementById('vat').value,
+            }
+            google.script.run.withSuccessHandler(function(res){
+            document.getElementById('name').value = "" 
+            document.getElementById('desc').value = ""
+            document.getElementById('price').value = ""
+            document.getElementById('vat').value = ""
+            document.getElementById('alert-saved-product').classList.remove('invisible')
+            setTimeout(function(){
+              document.getElementById('alert-saved-product').classList.add('invisible')
+            },3000)
+            }).withFailureHandler().addProduct(data)
+        }
+
+
+// Template function for loading views
+    function loadView (options) {
+      let id = typeof options.id == "undefined" ? 'app' : options.id
+      let cb = typeof options.callback == "undefined" ? function(){} : options.callback
+      
+      google.script.run.withSuccessHandler(function(html){
+        document.getElementById(id).innerHTML = html
+        typeof options.params === "undefined" ? cb() : cb(options.params)
+      }).withFailureHandler()[options.func]()
+    }
+
+/* ------------------------------------- EVENTLISTENERS for Navigation ------------------------------------- */ 
+
+    document.getElementById('search-cs-link').addEventListener('click', loadSearchCustomerView)
+    document.getElementById('add-cs-link').addEventListener('click', loadAddCustomerView)
+    document.getElementById('add-pd-link').addEventListener('click', loadAddProductView)
+    document.getElementById('search-orders-link').addEventListener('click', loadSearchOrderView)
+    document.getElementById('add-us-link').addEventListener('click', loadAddUserView)
+
+
+/* ------------------------------------- NAVIGATION TAB  HIGHLIGHT ------------------------------------- */ 
+  // actives the nav tab once it is clicked
+
+    function navLinkActivator(e) {
+      const navList = document.querySelectorAll('.nav-tabs .nav-link')
+      navList.forEach(link=>{
+        link.classList.remove('active')
+      })
+      e.target.classList.add('active')
+    }
+
+/* ------------------------------------- INPUT EVENT HANDLERS ------------------------------------- */ 
+  // if an e.target matches a certain id - then run the function
+
+    function inputEventHandler(e) {
+      if( e.target.matches('#searchInput-customer')){
+        search('customer')
+      }
+      if( e.target.matches('#searchInput-product')){
+        search('product')
+      }
+      if( e.target.matches('#searchInput-order')){
+        search('order')
+      }
+    }
+
+/* ------------------------------------- CLICK EVENT HANDLERS ------------------------------------- */ 
+  // if an e.target matches a certain id - then run the function
+
+    function clickEventHandler(e) {
+      if(e.target.matches('.delete-button')){
+        deleteCustomer(e)
+      }
+
+      if(e.target.matches('.edit-button')){
+        loadView({func:'loadEditCustomerView', callback: afterEditViewLoads, params: {custID: e.target.dataset.customerID} })
+      }
+
+      if(e.target.matches('.add-order-button')){
+        loadView({func:'loadAddOrderView', callback: afterOrderViewLoads, params: {custID: e.target.dataset.customerID} })
+      }
+      
+      if(e.target.matches('.add-product-to-order')){
+        const eventTarget = e.target
+        createOrderPositionOverView(eventTarget)
+      }
+
+      if(e.target.matches('.remove-product-from-order')){
+        const eventTarget = e.target
+        removeProductFormCart(eventTarget)
+      }
+
+
+      if(e.target.matches('#save-changes')){
+        e.preventDefault()
+        updateCustomer()
+      }
+
+      if(e.target.matches('#cancel-changes')){
+        loadSearchCustomerView()
+      }
+
+      if(e.target.matches('#cancel-order')){
+        const custID = document.getElementById('customer-id').value
+        loadView({func:'loadAddOrderView', callback: afterOrderViewLoads, params: {custID: custID} })
+      }
+
+      
+      
+      if(e.target.matches('#row') || e.target.matches('#add-customer')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+      }
+      
+      if(e.target.matches('#add-customer')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          addCustomer()
+      }
+      
+      if(e.target.matches('#add-product')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          addProduct()
+      }
+
+      if(e.target.matches('#add-user')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          addUser()
+      }
+
+      if(e.target.matches('#create-order')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          addOrder()
+      }
+
+      if(e.target.matches('#add-invoice-button')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          createInvoiceHandle(e)
+      } 
+
+      if(e.target.matches('#send-invoice-button')){
+          //prevents that the default submit event is trigged
+          e.preventDefault()
+          sendInvoiceByEmail(e)
+      } 
+
+    }
+
+// Highlights the nav once its clicked
+function navClickEventHandler(e) {
+  if(e.target.matches('.nav-link')) {
+    navLinkActivator(e)
+  }
+}
+
+/* ------------------------------------- GLOBAL EVENT HANDLERS ------------------------------------- */ 
+
+// cant just assign eventlistener to an element which is not there when DOM is loading -> use inputEventhandler or clickEventhandler function 
+// this function check if the element is in the DOM and then executes annother function
+
+document.getElementById('app').addEventListener('input', inputEventHandler)
+document.getElementById('app').addEventListener('click', clickEventHandler)
+document.getElementById('navigation').addEventListener('click', navClickEventHandler)
+document.addEventListener('DOMContentLoaded',loadSearchCustomerView)
+
+    
+    </script>
+  </body>
+</html>

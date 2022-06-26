@@ -1,0 +1,37 @@
+<h1>Search Customers</h1>
+
+  <div class="form-group">
+    <input type="text" class="form-control" id="searchInput-customer" placeholder="seach...">
+  </div> 
+
+    <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Company</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody id="searchResults">
+    
+  </tbody>
+</table>
+<!--template tags makes it invisible-->
+<template id="rowTemplate">
+<tr class="result-box">
+      <th class="custId" scope="row"></th>
+      <td class="company"> </td>
+      <td class="first"> </td>
+      <td class="last"> </td>
+      <td><button type="button" class="btn btn-dark edit-button">Edit</button></td>
+      <td><button type="button" class="btn btn-danger delete-button">Delete</button></td>
+      <td><button type="button" class="btn btn-success add-order-button">Add Order</button></td>
+    </tr>
+
+    
+
+</template>

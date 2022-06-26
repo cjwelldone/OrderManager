@@ -1,0 +1,34 @@
+<div class="alert alert-success invisible" id="alert-saved" role="alert">
+  <p id='success-text'></p>
+</div> 
+<h1>Search Orders</h1>
+
+  <div class="form-group">
+    <input type="text" class="form-control" id="searchInput-order" placeholder="search for orders...">
+  </div> 
+
+    <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">OrderNumber</th>
+      <th scope="col">Order Amount</th>
+      <th scope="col">Invoice Sent</th>
+      <th scope="col">Customer</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody id="searchResults">
+    
+  </tbody>
+</table>
+<!--template tags makes it invisible-->
+<template id="rowTemplate">
+<tr class="result-box">
+      <th class="orderNumber" scope="row"></th>
+      <td class="amount"> </td>
+      <td class="invoiceSent"> </td>
+      <td class="customer"> </td>
+      <td><button type="button" class="btn btn-success invisible" id="add-invoice-button">Create Invoice</button></td>
+      <td><button type="button" class="btn btn-success invisible" id="send-invoice-button">Send Mail</button></td>
+    </tr>
+</template>

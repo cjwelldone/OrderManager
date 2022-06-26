@@ -1,0 +1,29 @@
+ <div class="alert alert-success invisible" id="alert-saved-product" role="alert">
+    Product Data saved succesfully!
+    </div>
+    <form class="row g-3">
+      <div class="col-md-4">
+        <label for="name" class="form-label" >Name</label>
+        <input type="text" class="form-control" id='name' placeholder="type a product name" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="desc" class="form-label">Description</label>
+        <input type="text" class="form-control" id='desc' placeholder="type a product description" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" class="form-control" id='price' placeholder="type in a price" minlength="1">
+      </div>
+      <div class="col-md-4">
+      <label for="vat" class="form-label">VAT</label>
+      <select class="form-select" type="number" aria-label="VAT select" id="vat">
+        <option selected>VAT</option>
+        <option type="number" value="19">19%</option>
+        <option type="number" value="7">7%</option>
+        <option type="number" value="0">0%</option>
+      </select>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-dark" id="add-product">Add Product</button>
+      </div>
+    </form>

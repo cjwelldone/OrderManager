@@ -1,0 +1,92 @@
+    <h3>Add Userdata</h3>
+    <div class="alert alert-success invisible" id="alert-saved-user" role="alert">
+    User Data saved succesfully!
+    </div>
+    <form class="row g-3" id="row">
+      <div class="col-md-4">
+        <label for="company" class="form-label" >Company</label>
+        <input type="text" class="form-control" id='company' name='company' placeholder="type your company name" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="first" class="form-label">First Name</label>
+        <input type="text" class="form-control" id='first' name='first' placeholder="type your first name" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="last" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id='last' name='last' placeholder="type your last name" minlength="1">
+      </div>
+
+<!---------------------------------------------------------------------------------------------------------------------------->
+      <div class="col-md-4">
+        <label for="street" class="form-label">Street Name</label>
+        <input type="text" class="form-control" id='street' name='street' placeholder="type your street name" minlength="1">
+      </div>
+      
+      <div class="col-md-2">
+        <label for="number" class="form-label">Street Number</label>
+        <input type="number" class="form-control" id='number' name='number' placeholder="type your street number" minlength="1">
+      </div>
+
+      <div class="col-md-2">
+        <label for="zip" class="form-label">Zip</label>
+        <input type="number" class="form-control" id='zip' name='zip' placeholder="type your a zip" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id='city' name='city' placeholder="type your city" minlength="1">
+      </div>
+<!---------------------------------------------------------------------------------------------------------------------------->   
+      <div class="col-md-6">
+        <label for="company" class="form-label" >Email</label>
+        <input type="email" class="form-control" id='email' name='email' placeholder="type your email adress" minlength="1">
+      </div>
+      <div class="col-md-6">
+        <label for="fon" class="form-label" >Fon</label>
+        <input type="text" class="form-control" id='fon' name='fon' placeholder="type your fon number" minlength="1">
+      </div>
+    
+<!---------------------------------------------------------------------------------------------------------------------------->
+ 
+      <div class="col-md-4">
+        <label for="bankaccount" class="form-label" >Bankaccount</label>
+        <input type="text" class="form-control" id='bankaccount' name='bankaccount' placeholder="type your bank name" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="iban" class="form-label" >IBAN</label>
+        <input type="text" class="form-control" id='iban' name='iban' placeholder="type your IBAN" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="bic" class="form-label" >BIC</label>
+        <input type="text" class="form-control" id='bic' name='bic' placeholder="type your BIC" minlength="1">
+      </div>
+
+ <!---------------------------------------------------------------------------------------------------------------------------->     
+      <div class="col-md-4">
+        <label for="taxnumber" class="form-label" >Tax Number</label>
+        <input type="taxnumber" class="form-control" id='taxnumber' name='taxnumber' placeholder="type your taxnumber" minlength="1">
+      </div>
+      <div class="col-md-4">
+        <label for="vatId" class="form-label" >VAT ID</label>
+        <input type="text" class="form-control" id='vatId' name='vatId' placeholder="type your vatId" minlength="1">
+      </div>
+      <div class="form-check col-md-4 form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="noVatOnInvoice">
+        <label class="form-check-label" for="noVatOnInvoice">Invoices without VAT</label>
+      </div>
+
+<!---------------------------------------------------------------------------------------------------------------------------->
+ 
+      <div class="col-md-6">
+        <label for="textblock_1" class="form-label" >Text Block</label>
+        <input type="text" class="form-control" id='textblock_1' name='textblock_1' placeholder="text free of choice 1 " minlength="1">
+      </div>
+      <div class="col-md-6">
+        <label for="textblock_2" class="form-label" >Text Block</label>
+        <input type="text" class="form-control" id='textblock_2' name='textblock_2' placeholder="text free of choice 2" minlength="1">
+      </div>
+
+<!---------------------------------------------------------------------------------------------------------------------------->
+      <div class="col-12">
+        <button type="submit" class="btn btn-dark" id="add-user">Add User</button>
+      </div>
+    </form>

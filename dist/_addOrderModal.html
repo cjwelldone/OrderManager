@@ -1,0 +1,132 @@
+<div class="alert alert-success invisible" id="alert-saved" role="alert">
+  Order Created succesfully!
+</div> 
+
+<!--- ROW ONE CUSTOMR DATA -->
+
+<div class="row">
+    
+    <div class="col">
+      <h3>Customer Adress</h3>
+      <form class="row g-3">
+        <div class="col-md-3">
+          <label for="customer-id" class="form-label">Id</label>
+          <input type="text" class="form-control" id='customer-id' minlength="1" disabled>
+        </div>
+        <div class="col-md-3">
+          <label for="company" class="form-label">Company</label>
+          <input type="text" class="form-control" id='company' minlength="1" disabled>
+        </div>
+        <div class="col-md-3">
+          <label for="firstname" class="form-label">First</label>
+          <input type="text" class="form-control" id='firstname' minlength="1" disabled>
+        </div>
+        <div class="col-md-3">
+          <label for="lastname" class="form-label">Name</label>
+          <input type="text" class="form-control" id='lastname' minlength="1" disabled>
+        </div>
+      </form>
+    </div>
+    
+    
+ </div>
+
+ <!--- ROW TWO: CART AND PRODICT SEARCH -->
+
+<div class="row cart">
+  <div class="col">
+    <h3>Order Overview</h3>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">ProductName</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Vat</th>
+        <th scope="col">Price</th>
+        <th scope="col">Total</th>
+        <th scope="col">*</th>
+      </tr>
+      </thead>
+      <tbody id="order-overview">
+        <!--the template gets rendered here-->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <h3>Products</h3>
+    <div class="form-group">
+      <input type="text" class="form-control" id="searchInput-product" placeholder="search...">
+    </div> 
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">ProductName</th>
+          <th scope="col">Price</th>
+          <th scope="col">VAT</th>
+          <th scope="col">Quantity</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="searchResults">
+        <!--the template gets rendered here-->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--- ROW THREE: ORDER OVERVIEW & CREATE ORDER -->
+
+<div class="row checkout">
+   <div class="col">
+     <h3>Order Amount Total €</h3>
+      <form class="row g-3">
+        <div class="col-md-4">
+            <label for="cartTotal19" class="form-label">19% €:</label>
+            <input type="text" class="form-control" id='cartTotal19'disabled value="0">
+        </div>
+        <div class="col-md-4">
+            <label for="cartTotal07" class="form-label">7% €:</label>
+            <input type="text" class="form-control" id='cartTotal07'disabled value="0">
+        </div>
+            <div class="col-md-4">
+            <label for="cartTotal" class="form-label">Total Order Amount</label>
+            <input type="text" class="form-control" id='cartTotal'disabled value="0">
+        </div>
+        <div class="col-md-12">
+          <button class="btn btn-success" id="create-order">Create Order</button>
+          <button class="btn btn-danger" id="cancel-order">Cancel</button>
+        </div>
+      </form>
+   </div>
+</div>
+<!--template tags makes it invisible-->
+
+<!-- SEARCH PRODUCT TEMPLATE -->
+
+<template id="rowTemplate">
+<tr class="result-box">
+      <th class="prodId" scope="row"></th>
+      <td class="prodName"> </td>
+      <td class="prodPrice"> </td>
+      <td class="vat"> </td>
+      <td>
+        <input class="prodQuantity" value="1"/>
+      </td>
+      <td><button type="button" class="btn btn-dark add-product-to-order">Add Product</button></td>
+    </tr>
+</template>
+
+<!-- CART TEMPLATE -->
+<template id="rowTemplateOrderOverview">
+  <tr class="result-box-cart">
+        <th class="prodNameCart" scope="row"></th>
+        <td class="quantityCart"></td>
+        <td class="vatRate"></td>
+        <td class="priceCart"></td>
+        <td class="totalLineAmount"></td>
+        <td><button type="button" class="btn btn-danger remove-product-from-order">Remove</button></td>
+  </tr>
+</template>
