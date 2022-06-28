@@ -17,8 +17,9 @@ function createInvoice (id){
 
 
 /*------------------------------------------------------ Create Temp Doc  ----------------------------------------------------------------*/
-// check in UserData if noVat is true
+// check in UserData if noVat is true - according to setting assign one of the two provided templates
 let tempFile
+// make copy of templatefile
 
 if(userInfo.noVatOnInvoice === 'true') {
   tempFile = invoiceNoVatTemplate.makeCopy();
@@ -26,22 +27,19 @@ if(userInfo.noVatOnInvoice === 'true') {
   tempFile = invoiceTemplate.makeCopy();
 }
 
-// make copy of templatefile, 
   // open the file
-  // get the body 
-  // get the article table
-  
   const openDoc = DocumentApp.openById(tempFile.getId());
+  // get the body
   const body = openDoc.getBody();
-  
   // get the footer
   const footer = openDoc.getFooter()
   // get all tables of the document
   const documentTables = body.getTables()
-  // The template Doc has 2 Tables - existingTable[1] returns the articleoverview table
+  // The template Doc has 2 Tables:
+  // documentTables[0] returns the headerdata table
+  // documentTables[1] returns the articleoverview table
   const articleTable = documentTables[1]
   
-
 /*-------------------------------------------  OrderData -------------------------------------------------------------------*/
 // // get the orderData and write to cells append to tablerow
 
@@ -50,7 +48,6 @@ if(userInfo.noVatOnInvoice === 'true') {
   const orderNumber = id.toString()
   const data =  getOrderByOrderNumber(orderNumber)
 
-  
 // Currency Format
   const options= { style: 'currency', currency: 'EUR' }
 
@@ -87,37 +84,26 @@ const invoiceNumber = returnInvoiceNumber()
     const tr = articleTable.appendTableRow();
     
     // Style the TD element by getting the child
-    // https://stackoverflow.com/questions/31525029/how-to-set-horizontal-alignment-on-a-table-in-apps-script
-    // https://developers.google.com/apps-script/reference/document/text#setTextAlignment(TextAlignment)
-
+  
     // Define a custom style for TD
     const style = {};
     style[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] =
         DocumentApp.HorizontalAlignment.CENTER
     style[DocumentApp.Attribute.BOLD] = false
-    /* style[DocumentApp.Attribute.FONT_FAMILY] = 'Calibri'
-    style[DocumentApp.Attribute.FONT_SIZE] = 18 */
-    
-    
+      
     // get the TD & insert DATA
     const td0 = tr.appendTableCell(product)
     const td1 = tr.appendTableCell(price)
     if(userInfo.noVatOnInvoice !== 'true') {
       const vat = r[11].toString()
-      //const td2 = 
       tr.appendTableCell(vat).getChild(0).editAsText().setAttributes(style)
     }
     const td3 = tr.appendTableCell(quantity)
     const td4 = tr.appendTableCell(total)
 
-
-
-    
-
     // Apply the custom style
     td0.getChild(0).editAsText().setAttributes(style)
     td1.getChild(0).editAsText().setAttributes(style)
-    //td2.getChild(0).editAsText().setAttributes(style)
     td3.getChild(0).editAsText().setAttributes(style)
     td4.getChild(0).editAsText().setAttributes(style)
 
@@ -127,12 +113,9 @@ const invoiceNumber = returnInvoiceNumber()
 // get CustomerData with getCustomerData(customerID)
 
 // id to be found in provided order array 
-    // old version:  8
     const customerIDinOrderTable = 10
-    
     const customerId = data.orderData[0][customerIDinOrderTable].toString()
     const customerInfos = getCustomerByID(customerId)
-    
     
     // Replace the vars of the body of the invoice
 
@@ -158,7 +141,6 @@ const invoiceNumber = returnInvoiceNumber()
 /*---------------------------------------------------- UserData  Build Table on Doc --------------------------------------------------------------*/
     // Build a table from the array for productdata
     footer.replaceText('{userCompany}', userInfo.company)
-    
     footer.replaceText('{userFirstName}', userInfo.firstName)
     footer.replaceText('{userLastName}', userInfo.lastName)
     footer.replaceText('{userFon}', userInfo.fon)
@@ -171,9 +153,7 @@ const invoiceNumber = returnInvoiceNumber()
     footer.replaceText('{userOrt}',userInfo.city)
     footer.replaceText('{userPlz}',userInfo.zip.toString())
     footer.replaceText('{steuernummer}',userInfo.taxnumber)
-    
     footer.replaceText('{ustID}',userInfo.vatId)
-
     body.replaceText('{textblock1}',userInfo.textblock1)
     body.replaceText('{textblock2}',userInfo.textblock2)
 
@@ -194,7 +174,6 @@ const invoiceNumber = returnInvoiceNumber()
   // write pdfID url to order table returns the url of the pdf and the id of the pdf
   const dataPDF = setInvoiceCreatedTrue(orderNumber,pdfFile)
 
-
 /*---------------------------------------- Move the tempoary file to Trash Folder & Remove ---------------------------------------------------*/
 /* Remove all files from trash folder */
 
@@ -204,6 +183,3 @@ const invoiceNumber = returnInvoiceNumber()
   // returns an object: {pdfID: pdfID, urlPDF: urlPDF} 
   return dataPDF
 }
-
-
-

@@ -19,13 +19,6 @@
         width: 100vw;
         background-color: rgba(0,0,0,0.1);
       }
-      .cart {
-        margin-top: 3rem;
-      }
-
-      .checkout {
-        margin-top: 3rem;
-      }
 
     </style>
   
@@ -66,7 +59,6 @@
     
 /* ------------------------------------- Loading Frame   ------------------------------------- */   
 
-
 function startLoading () {
   document.getElementById('loading').classList.remove('invisible')
 }
@@ -84,8 +76,8 @@ function endLoading () {
     function setDataForSearch () {
       startLoading()
       google.script.run.withSuccessHandler(function(dataReturned){
-        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
-        // slice without any args - returns a copy of the dataReturned Array
+        // .slice method  (without any args) makes a copy of array otherwise its just a reference - so "data = dataReturned" does not work
+        
         data = dataReturned.slice()
         endLoading()
       }).withFailureHandler().getDataForSearch()
@@ -93,8 +85,6 @@ function endLoading () {
 
     function setProductDataForSearch () {
       google.script.run.withSuccessHandler(function(dataReturned){
-        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
-        // slice without any args - returns a copy of the dataReturned Array
         if(dataReturned == undefined) {
           alert('Data could not be loaded')
         } else {
@@ -106,9 +96,6 @@ function endLoading () {
     function setOrderDataForSearch () {
       startLoading()
       google.script.run.withSuccessHandler(function(dataReturned){
-        
-        // need to make a copy because otherwise its just a reference - so "data = dataReturned" does not work
-        // slice without any args - returns a copy of the dataReturned Array
         orderData = dataReturned.slice()
         endLoading()
       }).withFailureHandler().getOrderDataForSearch()
@@ -145,14 +132,10 @@ function endLoading () {
       }
 
 
-      // splitting by spaces with REG EX: s+  means one or more spaces - searchwords is an array with multiple words
+      // splitting by spaces with REG EX: s+ means one or more spaces - searchwords: array with multiple words
       const searchWords = searchInput.split(/\s+/)
-      // in which columns should the words be searched for 
-
-      /* FROM HERE unique CODE */
       const resultsArr = searchInput === '' ? [] : dataToFilter.filter(function(r){
-        
-        //every Method with some Method (and or condition)
+        //"every" Method with some Method (and or condition)
         return searchWords.every(function(word){
           return searchColumns.some(function(colIndex){
             return r[colIndex].toString().toLowerCase().indexOf(word) !== -1
@@ -163,7 +146,7 @@ function endLoading () {
       const searchResultsBox = document.getElementById('searchResults')
       const templateBox = document.getElementById('rowTemplate')
       const template = templateBox.content
-      //clear the old search results every time - functions run
+      //clear the old search results every time - function runs
       searchResultsBox.innerHTML = ''
 
 
@@ -232,7 +215,7 @@ function endLoading () {
       })
       break
       default:
-      console.log('No search-input selected')
+      alert('No search-input selected')
       }
     }
     
@@ -277,7 +260,6 @@ function endLoading () {
               }
             } 
     
-
       // create row and append it to table with class order-overview
       // use the template provided in html file addOrderModal
       // clone the tr node 
@@ -293,13 +275,11 @@ function endLoading () {
       const vatRateCart = tr.querySelector('.vatRate')
       let totalLine = tr.querySelector('.totalLineAmount')
       
-      
       prodName.textContent = eventTarget.closest(`tr`).querySelector('.prodName').innerHTML
       const quantityItem = eventTarget.closest(`tr`).querySelector('.prodQuantity').value
       quantityCart.textContent = quantityItem
       prodPrice.textContent = eventTarget.closest(`tr`).querySelector('.prodPrice').innerHTML
       vatRateCart.textContent = eventTarget.closest('tr').querySelector('.vat').innerHTML
-      
       
       // update total line amount - this is crap
       totalLine.textContent = quantityItem * eventTarget.closest(`tr`).querySelector('.prodPrice').innerHTML
@@ -312,7 +292,6 @@ function endLoading () {
 
 /* -------------------------------------- UPDATE CART AMOUNT ----------------------------------------------------------------- */
     
-
     function updateCart () {
       const cartTotal = document.getElementById('cartTotal')
       const cartTotal19 = document.getElementById('cartTotal19')
@@ -391,7 +370,6 @@ function endLoading () {
     function loadSearchOrderView() {
       loadView({func:'loadSearchOrderView', callback: setOrderDataForSearch})
     }
-
    
     
 /* -------------------------------------- CallBacks after View loaded ---------------------------------------------------------------------------- */
@@ -732,8 +710,6 @@ function endLoading () {
         loadView({func:'loadAddOrderView', callback: afterOrderViewLoads, params: {custID: custID} })
       }
 
-      
-      
       if(e.target.matches('#row') || e.target.matches('#add-customer')){
           //prevents that the default submit event is trigged
           e.preventDefault()
@@ -786,8 +762,8 @@ function navClickEventHandler(e) {
 
 /* ------------------------------------- GLOBAL EVENT HANDLERS ------------------------------------- */ 
 
-// cant just assign eventlistener to an element which is not there when DOM is loading -> use inputEventhandler or clickEventhandler function 
-// this function check if the element is in the DOM and then executes annother function
+// cant just assign eventlistener to an element which is not yet there when DOM is loading -> use inputEventhandler or clickEventhandler function 
+// this function checks if the element is in the DOM and then executes annother function
 
 document.getElementById('app').addEventListener('input', inputEventHandler)
 document.getElementById('app').addEventListener('click', clickEventHandler)

@@ -6,19 +6,6 @@ function setSpreadsheet(sheetname){
   return ss.getSheetByName(sheetname)
 }
 
-// deprecated: returns array with customerdata from invoicecreator
-
-function getCustomerData(id){
-  const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Customer')
-  const lastrow = ss.getLastRow()
-  customerdata = ss.getRange(2,1,lastrow,1).getValues()
-  const index = customerdata.findIndex(r => r[0] == id)
-  const indexRow = index + 2 // convert index to googlesheet rows
-  customerDataSet = ss.getRange(indexRow,2,1,7).getValues()
-
-  return customerDataSet
-}
-
 // returns the current invoiceNumber
 
 function returnInvoiceNumber () {
@@ -91,8 +78,8 @@ function moveFileToFolder (file, folderId) {
   openFile.moveTo(folderTarget)
 }
 
-// takes file and folder as args 
-// creates a pdf file // returns the file
+// takes a doc file and a folder as args 
+// creates pdf file // returns the file
 
 function createPDF(file, folder){
   const blobPDF = file.getAs(MimeType.PDF)

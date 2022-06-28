@@ -1,4 +1,4 @@
-// webapp
+// webapp 
 function doGet(e) {
   return HtmlService.createTemplateFromFile('main')
       .evaluate();
@@ -17,18 +17,13 @@ function loadMain() {
   ui.showModalDialog(html, 'Edit Data')
 }
 
-
-//https://developers.google.com/apps-script/guides/dialogs
-// add a custom menu in the top menu bar
-// adds an Item to the Menu Erweiterung
-
 function onOpen () {
   createMenu_()
 } 
 
 function createMenu_ () {
   SpreadsheetApp.getUi()
-  .createMenu('Custom Menu')
-  .addItem("Open Main", "loadMain")
+  .createMenu('Order Manager')
+  .addItem("Open Manager", "loadMain")
   .addToUi()
 }
