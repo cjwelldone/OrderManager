@@ -1,4 +1,4 @@
-#Order
+# Order
 - ID	
 - TimeStamp	
 - orderNumber	
@@ -17,7 +17,7 @@
 - pdfURL	
 - urlDownloadPDF
 
-#Product
+# Product
 - ID	
 - Name	
 - Desc	
@@ -25,7 +25,7 @@
 - VAT	
 - TimeStamp
 
-#User
+# User
 - company	
 - firstName	
 - lastName	
@@ -44,7 +44,7 @@
 - textblock2
 - noVATonInvoice
 
-#Customer
+# Customer
 - ID
 - Company
 - FirstName
@@ -57,7 +57,7 @@
 - Email
 
 
-#InvoiceNumber
+# InvoiceNumber
 no headers needed
-#OrderNumber
+# OrderNumber
 no headers needed

@@ -27,12 +27,13 @@ At the moment it is possible to
         - templateInvoicefile
         - templateInvoicefileNoVat 
 
-    - you can style the docs however you like but they need to have at least the following structure and vars [structure](https://github.com/cjwelldone/OrderManager/blob/docstructure.md/)
+    - you can style the docs however you like but they need to have at least the following structure and vars [structure](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md)
   - invoices
   - trash
 - create a google spreadsheet 
 - create the following sheets within the spreadsheet
   - Order, Product, Customer, User, InvoiceNumber, OrderNumber
+- the sheets should have the following column [headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
 - Set up you inital order and invoicenumber in Cell A1
 
 - get the ids of all files and folders
