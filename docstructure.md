@@ -7,7 +7,9 @@
 {PLZ} {Stadt}
 
 # table tow
+| ------ | ------ | ------ | ------ | ------ |
 | Artikel  | Preis | USt. | Anzahl | Gesamt |
+| ------ | ------ | ------ | ------ | ------ |
 
 {ust7}
 {VAT7}
