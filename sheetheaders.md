@@ -56,8 +56,10 @@
 - TimeStamp
 - Email
 
-
 # InvoiceNumber
-no headers needed
+- no headers needed
+- just set up the inital ordernumber in Cell A1
+
 # OrderNumber
-no headers needed
+- no headers needed
+- just set up the inital invoicenumber in Cell A1
