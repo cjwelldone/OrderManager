@@ -1,4 +1,4 @@
-# tabel one
+# table one
 {Datum}
 {company}
 {first} {last}
@@ -6,7 +6,7 @@
 {Strasse}
 {PLZ} {Stadt}
 
-# tabel tow
+# table tow
 | Artikel  | Preis | USt. | Anzahl | Gesamt |
 
 {ust7}
