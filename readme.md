@@ -54,7 +54,9 @@ At the moment it is possible to
   
   - you just need the html and js files - nothing else from this repo
 
-  - you can also work with [clasp](https://github.com/google/clasp) [clasp infos from google](https://developers.google.com/apps-script/guides/clasp)
+  - you can also work with clasp: 
+  - [clasp](https://github.com/google/clasp) 
+  - [clasp infos from google](https://developers.google.com/apps-script/guides/clasp)
 
 
 - apply the structure [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md) to the docs you just created
