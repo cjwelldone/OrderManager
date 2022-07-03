@@ -1,10 +1,9 @@
 # table one
 
-| Anschrift |sds| Datum | {Datum} |
-| ------ | ------ | ------ | ------ |
-
-| {company}
-{first} {last} | ------ | ------ | {RNR} |
+| Anschrift |Empty Col| Datum | {Datum} |
+| ------ | ------ | ------ | ---- |
+| {company} | ------ | ------ | {RNR} |
+| {first} {last} | ------ | ------ | ---- |
 | {Strasse} | ------ | ------ | ------ |
 | {PLZ} {Stadt} | ------ | ------ | ------ |
 
