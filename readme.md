@@ -22,14 +22,14 @@ At the moment it is possible to
 
 - create a folder in google drive 
 - create three subfolders 
-  - templates
-    -  create two google docs ( or name them you like ): 
-        - templateInvoicefile
-        - templateInvoicefileNoVat 
+  - **templates**
+    -  create two google docs: 
+        - templateInvoicefile ( or name it you like )
+        - templateInvoicefileNoVat ( or name it you like )
 
     - you can style the docs however you like but they need to have at least the following structure and vars [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md)
-  - invoices
-  - trash
+  - **invoices**
+  - **trash**
 - create a google spreadsheet 
 - create the following sheets within the spreadsheet
   - Order, Product, Customer, User, InvoiceNumber, OrderNumber
