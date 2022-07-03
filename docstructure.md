@@ -2,14 +2,11 @@
 
 | Anschrift  |  |  | Datum | {Datum} |
 | ------ | ------ | ------ | ------ |
-| ------ | ------ | ------ | ------ |
-| ------ | ------ | ------ | ------ |
-{Datum}
-{company}
-{first} {last}
-{RNR}
-{Strasse}
-{PLZ} {Stadt}
+| {company}
+{first} {last} | ------ | ------ | {RNR} |
+| {Strasse} | ------ | ------ | ------ |
+| {PLZ} {Stadt} | ------ | ------ | ------ |
+
 
 # table tow
 
