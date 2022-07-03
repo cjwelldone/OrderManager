@@ -1,6 +1,6 @@
 # AppScriptOrderManager
 
-This project is still in development, but you can you it already if you like.
+This project is still in development, but you can use it already if you like.
 
 ## Purpose
 
