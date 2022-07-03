@@ -38,7 +38,7 @@ At the moment it is possible to
 - the sheets should have the following [column headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
 
 - get the ids of all files and folders
-- open a [google appscript](https://script.google.com/home/)
+- open [google appscript](https://script.google.com/home/)
 - create a new project
 - go to projectsettings -> scriptproperties
 - add new scriptproperties:
