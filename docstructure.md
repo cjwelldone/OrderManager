@@ -2,7 +2,7 @@
 
 | Anschrift |Empty Col| Datum | {Datum} |
 | ------ | ------ | ------ | ---- |
-| {company} | ------ | ------ | {RNR} |
+| {company} |  | Rechnungsnr: | {RNR} |
 | {first} {last} | ------ | ------ | ---- |
 | {Strasse} | ------ | ------ | ------ |
 | {PLZ} {Stadt} | ------ | ------ | ------ |
