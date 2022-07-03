@@ -1,13 +1,14 @@
 # AppScriptOrderManager
 
-still in dev
-
+This project is still in development, but you can you it already if you like.
 
 ## Purpose
-Little helper for freelancers to make organising and sending invoices easier
+
+Little helper for freelancers to make organising and sending invoices easier.
 
 ## Scope
-This programm uses Google AppsScript and some google service like GMailApp, DriveApp, SpreadsheetApp, DocumentApp
+
+This programm uses Google AppsScript and other Google services like GMailApp, DriveApp, SpreadsheetApp, DocumentApp
 
 At the moment it is possible to 
 - set up inital user data
@@ -17,6 +18,7 @@ At the moment it is possible to
 - create invoices
 - send invoices via email
 
+- Ordermanager is deployable as webapp or modal in a spreadsheet
 
 ## How To Set Up
 
