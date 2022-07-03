@@ -1,5 +1,5 @@
 // TO DO 
-// cool clasp works
+
 // attention - get table of body of doc  is  pitfall because if anyone changes or deletes the first table- it ll break
 
 
@@ -179,6 +179,8 @@ function addProduct(data) {
     ]])
   return true
 }
+
+
 
 // add User to table
 

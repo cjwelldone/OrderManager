@@ -110,7 +110,7 @@ const invoiceNumber = returnInvoiceNumber()
   })
 
 /*------------------------------------------- CustomerData -------------------------------------------------------------------*/
-// get CustomerData with getCustomerData(customerID)
+// get CustomerData with getCustomerByID(customerID)
 
 // id to be found in provided order array 
     const customerIDinOrderTable = 10
