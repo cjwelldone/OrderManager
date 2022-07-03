@@ -27,9 +27,9 @@
 # Footer
 ## table three
 
-| {userCompany}  | BANK: 	{bankaccount} |
+| {userCompany} | BANK: {bankaccount} |
 | ------- | ------ |
-| {userFirstName} {userLastName} | IBAN: 	{iban} |
-| {userFirstName} {userLastName} | BIC: 	{bic} |
+| {userFirstName} {userLastName} | IBAN: {iban} |
+| {userFirstName} {userLastName} | BIC: {bic} |
 | {userPlz} {userOrt}| VATID: 	{ustID} |
 | {userEmail}|AccountNumber: {steuernummer} |
