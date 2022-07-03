@@ -31,23 +31,31 @@ At the moment it is possible to
   - **invoices**
   - **trash**
 - create a google spreadsheet 
-- create the following sheets within the spreadsheet
+- create the following sheets within the spreadsheet (make sure you to copy the name from here)
   - Order, Product, Customer, User, InvoiceNumber, OrderNumber
-- the sheets should have the following column [headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
+- the sheets should have the following [column headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
 
 - get the ids of all files and folders
-- open extensions appscript
-- go to projectsettings ->ScriptProperties
+- open extensions -> appscript
+- go to projectsettings -> ScriptProperties
 - set up those keys: 
   - spreadSheetId (id of the spreadsheet)
   - invoiceFolderID (id of the invoiceFolder)
-  - templateInvoicefileID (id of the google doc)
-  - templateInvoicefileNoVatID (id of the google other doc)
+  - templateInvoicefileID (id of the first google doc)
+  - templateInvoicefileNoVatID (id of the second google doc)
   - trashfolderId ((id of the trashFolder)
+  - create html files and use thes excact naming of this project 
+  - create script files and name them like in this project - do not worry about the fact, that in this repo files have a .js ending - google appscript uses .gs
+  - you just need html and js files - nothing else
+  - you can also work with [clasp](https://github.com/google/clasp) to make it more convient - but it takes some time to set up 
 
-- copy and paste the content of the sample docs to the docs you just created
-- copy the first row of each template sheet into the spreadsheet
+- apply the structure [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md) to the docs you just created
+- the styling is not important, but make sure, that you have at least three tables in the body section
 
 ## How To Use
+
+- once you setup everything, you can now deploy the project as a webapp or also use the programm in your spreadsheet as modal
+- once you open the spreadsheet, there will be a new Menu Item - called "Ordermanager"
+- when you open the programm for the first time, make sure to grant access to all your google services and go to add user section and set the user data, which will then be printed on the invoice
 
 
