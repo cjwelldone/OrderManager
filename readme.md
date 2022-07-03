@@ -27,7 +27,7 @@ At the moment it is possible to
         - templateInvoicefile
         - templateInvoicefileNoVat 
 
-    - you can style the docs however you like but they need to have at least the following structure and vars [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_notVat.md)
+    - you can style the docs however you like but they need to have at least the following structure and vars [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](hhttps://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md)
   - invoices
   - trash
 - create a google spreadsheet 
