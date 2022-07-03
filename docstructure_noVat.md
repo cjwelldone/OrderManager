@@ -1,4 +1,4 @@
-# Document Template for invoices with VAT
+# Document Template for invoices without VAT
 
 # Body
 ## table one
@@ -13,16 +13,13 @@
 
 ## table two
 
-| Article  | Price | VAT | QTY | Total |
-| -------- | ----- | --- | --- | ----- |
+| Article  | Price | QTY | Total |
+| -------- | ----- | --- | ----- |
 
 ## table three
 
-| {ust7}  | {VAT7} |
-| ------- | ------ |
-| {ust19} |{VAT19} |
 | Total| {TotalTotal}|
-
+| ------- | ------ |
 
 {textblock1} 
 {textblock2}
@@ -34,5 +31,5 @@
 | ------- | ------ |
 | {userFirstName} {userLastName} | IBAN: 	{iban} |
 | {userFirstName} {userLastName} | BIC: 	{bic} |
-| {userPlz} {userOrt}| UStID: 	{ustID} |
-| {userEmail}|Steuernummer: {steuernummer} |
+| {userPlz} {userOrt}| VATID: 	{ustID} |
+| {userEmail}|AccountNumber: {steuernummer} |
