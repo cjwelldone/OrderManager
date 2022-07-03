@@ -58,6 +58,7 @@ At the moment it is possible to
 
 - once you setup everything, you can now deploy the project as a webapp or also use the programm in your spreadsheet as modal
 - once you open the spreadsheet, there will be a new Menu Item - called "Ordermanager"
-- when you open the programm for the first time, make sure to grant access to all your google services and go to add user section and set the user data, which will then be printed on the invoice
+- when you open the programm for the first time, make sure to grant access to all your google services and 
+- go to the "add user" section and set the user data, which will then be printed on the invoice
 
 
