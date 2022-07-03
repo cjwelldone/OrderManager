@@ -1,6 +1,6 @@
 # AppScriptOrderManager
 
-This project is still in development, but you can use it already if you like.
+This project is still in development, but you can you it already if you like.
 
 ## Purpose
 
@@ -38,8 +38,10 @@ At the moment it is possible to
 - the sheets should have the following [column headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
 
 - get the ids of all files and folders
-- open extensions -> appscript
-- go to projectsettings -> ScriptProperties
+- open a [google appscript](https://script.google.com/home/)
+- create a new project
+- go to projectsettings -> scriptproperties
+- add new scriptproperties:
 - set up those keys: 
   - spreadSheetId (id of the spreadsheet)
   - invoiceFolderID (id of the invoiceFolder)
@@ -48,7 +50,7 @@ At the moment it is possible to
   - trashfolderId ((id of the trashFolder)
   - create html files and use thes excact naming of this project 
   - create script files and name them like in this project - do not worry about the fact, that in this repo files have a .js ending - google appscript uses .gs
-  - you just need html and js files - nothing else
+  - you just need the html and js files - nothing else
   - you can also work with [clasp](https://github.com/google/clasp) to make it more convient - but it takes some time to set up 
 
 - apply the structure [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md) to the docs you just created
