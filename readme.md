@@ -37,6 +37,7 @@ At the moment it is possible to
   - Order, Product, Customer, User, InvoiceNumber, OrderNumber
 - the sheets should have the following [column headers](https://github.com/cjwelldone/OrderManager/blob/master/sheetheaders.md)
 
+### Set Up AppScript
 - get the ids of all files and folders
 - open [google appscript](https://script.google.com/home/)
 - create a new project
@@ -50,8 +51,11 @@ At the moment it is possible to
   - trashfolderId ((id of the trashFolder)
   - create html files and use thes excact naming of this project 
   - create script files and name them like in this project - do not worry about the fact, that in this repo files have a .js ending - google appscript uses .gs
-  - you just need the html and js files - nothing else
-  - you can also work with [clasp](https://github.com/google/clasp) to make it more convient - but it takes some time to set up 
+  
+  - you just need the html and js files - nothing else from this repo
+
+  - you can also work with [clasp](https://github.com/google/clasp) [clasp infos from google](https://developers.google.com/apps-script/guides/clasp)
+
 
 - apply the structure [structure invoices with VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure.md) or [structure invoices without VAT](https://github.com/cjwelldone/OrderManager/blob/master/docstructure_noVat.md) to the docs you just created
 - the styling is not important, but make sure, that you have at least three tables in the body section
